@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Contact Info{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div> 
+        <div class="col-md-4">Contacts</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">Name: {{ owner.first_name }}</div>
+        <div class="col-md-4">Email: {{ owner.email }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">Last name: {{ owner.last_name }}</div>
+        <div class="col-md-4">Jabber: {{ owner.jabber }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">Date of birth: {{ owner.birthday }}</div>
+        <div class="col-md-4">Skype: {{ owner.skype }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"><h5>Bio: </h5>
+            <p>{{ owner.bio }}</p>
+        </div>
+        <div class="col-md-4">Other contacts: <a href="{{ owner.other }}">{{ owner.other }}</a></div>
+    </div>
+</div>
+{% endblock content %}
