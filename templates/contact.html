@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-{% block title %}Contact Info{% endblock title %}
+{% block title %}Contact Information{% endblock title %}
 
 {% block content %}
 <div class="container">
@@ -28,5 +28,10 @@
         </div>
         <div class="col-md-4">Other contacts: <a href="{{ owner.other }}">{{ owner.other }}</a></div>
     </div>
+    <hr>
+    <footer>
+        <H5><a href="{% url "requests" %}">requests</a></H5>
+        <div id="resutl"></div>
+    </footer>
 </div>
 {% endblock content %}
