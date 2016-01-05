@@ -13,6 +13,6 @@ urlpatterns = patterns(
     url(r'^requests/$', 'apps.contact.views.requests', name='requests'),
     url(r'^edit_contact/$', 'apps.contact.views.edit_contact',
         name='edit_contact'),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls), name='admin'),
 )
 urlpatterns += staticfiles_urlpatterns()
