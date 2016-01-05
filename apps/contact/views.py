@@ -9,10 +9,10 @@ from .models import Owner, UsersRequest
 def contact(request):
     """View for contact.html root page."""
     # Take owner data from the database
-    owner = Owner.objects.all().first()
-    if owner is not None:
-        return render(request, 'contact.html', {'owner': owner})
-    return render(request, 'contact.html')
+    owner = Owner.objects.all()
+    if not owner:
+        return render(request, 'contact.html')
+    return render(request, 'contact.html', {'owner': owner.first()})
 
 
 def requests(request):
