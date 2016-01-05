@@ -6,6 +6,9 @@
 
 {% block content %}
 <div class="container">
+    {% if not owner %}
+    <div class="alert alert-warning" role="alert" style="width: 180px;">Database is empty.</div>
+    {% endif %}
     <div class="row">
         <div class="col-md-4"></div> 
         <div class="col-md-4">Contacts</div>

@@ -1,4 +1,4 @@
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import resolve, reverse
 from django.http import HttpRequest
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -17,9 +17,8 @@ class HomePageTest(TestCase):
 
     def test_home_page_returns_correct_html(self):
         """Test site and contact.html content."""
-        owner = Owner()
         request = HttpRequest()
-        response = render(request, 'contact.html', {'owner': owner})
+        response = render(request, 'contact.html')
         expected_html = render_to_string('contact.html')
         self.assertEqual(response.content.decode(), expected_html)
 
@@ -28,7 +27,7 @@ class AdminPageTest(TestCase):
     """Test admin page."""
     def test_admin_page_availiability(self):
         """Test admin page url."""
-        response = self.client.get('/admin/')
+        response = self.client.get(reverse('admin:index'))
         self.assertContains(response, 'Django site admin')
 
 
@@ -72,7 +71,7 @@ class UserRequestsData(TestCase):
         """ Test saving request data to database by middleware."""
         start_requests_quantity = UsersRequest.objects.count()
         # Make request to home page
-        response = self.client.get('/')
+        response = self.client.get(reverse('contact'))
         self.assertContains(response, 'requests')
 
         end_requests_quantity = UsersRequest.objects.count()
@@ -85,7 +84,7 @@ class UserRequestsData(TestCase):
         """ Test saving request data to database by middleware."""
         request = HttpRequest()
         # Make request to home page
-        response1 = self.client.get('/')
+        response1 = self.client.get(reverse('contact'))
         self.assertContains(response1, 'requests')
         # Add to request META key which make is_ajax() method true
         request.META['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
