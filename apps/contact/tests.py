@@ -69,16 +69,17 @@ class UserRequestsData(TestCase):
     """Test saving and retrieving users requests."""
     def test_saving_request_to_database_after_load_the_page(self):
         """ Test saving request data to database by middleware."""
-        start_requests_quantity = UsersRequest.objects.count()
+        request = HttpRequest()
         # Make request to home page
         response = self.client.get(reverse('contact'))
         self.assertContains(response, 'requests')
-
-        end_requests_quantity = UsersRequest.objects.count()
-        self.assertEqual(
-            start_requests_quantity,
-            end_requests_quantity - 1
-            )
+        # Take last request form db
+        request_ = UsersRequest.objects.first().request_str
+        # Add to request META key which make is_ajax() method true
+        request.META['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
+        response2 = requests(request)
+        # Check request page with new request line
+        self.assertContains(response2, request_[:-16])
 
     def test_storing_requests_to_html_after_new_request(self):
         """ Test saving request data to database by middleware."""
