@@ -2,6 +2,7 @@ import json
 
 from django.core.urlresolvers import reverse
 from django.http import HttpRequest
+from django.shortcuts import render
 from django.test import TestCase
 
 from models import Owner, UsersRequest
@@ -21,24 +22,31 @@ class OwnerDataView(TestCase):
     """Test owner data view."""
     def test_storing_owner_data_to_html_page(self):
         """Test storing owner data to html."""
-        owner = Owner.objects.first()
-        if owner is not None:
-            response = self.client.get(reverse('contact'))
-            self.assertContains(response, 'Sergiy')
-            self.assertContains(response, 'Savarin')
-        else:
-            response = self.client.get(reverse('contact'))
-            self.assertContains(response, 'Database is empty.')
-
-    def test_quantity_of_owner_objects_in_db(self):
-        """Test quantity of owner objects in database."""
-        owner = Owner.objects.count()
-        if owner == 0:
-            self.assertEqual(owner, 0)
-        elif owner == 1:
-            self.assertEqual(owner, 1)
-        else:
-            self.assertTrue(owner > 1)
+        # DB is empty
+        owner0 = None
+        request = HttpRequest()
+        response = render(request, 'contact.html', {'owner': owner0})
+        self.assertContains(response, 'Database is empty.')
+        # One owner object in db
+        owner1 = Owner.objects.first()
+        self.assertEqual(Owner.objects.count(), 1)
+        response = self.client.get(reverse('contact'))
+        self.assertContains(response, owner1.first_name)
+        # Two and more owner objects in db
+        owner2 = Owner(
+            first_name='Vasja',
+            last_name='Pupkin',
+            birthday='1965-12-02',
+            bio='Nurilsk',
+            email='rdb@yans.com',
+            skype='lock_lom',
+            jabber='vasja@nurilsk.com'
+        )
+        owner2.save()
+        self.assertEqual(Owner.objects.count(), 2)
+        response = self.client.get(reverse('contact'))
+        self.assertContains(response, owner1.first_name)
+        self.assertNotContains(response, owner2.first_name)
 
 
 class UserRequestsData(TestCase):
