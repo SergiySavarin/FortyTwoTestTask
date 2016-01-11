@@ -13,28 +13,32 @@ class HomePageTest(TestCase):
     def test_home_page_returns_correct_html(self):
         """Test site and contact.html content."""
         response = self.client.get(reverse('contact'))
-        self.assertContains(response, 'Name:')
-        self.assertContains(response, 'Last name:')
-        self.assertContains(response, 'Skype:')
-        self.assertContains(response, 'Bio:')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Contact Information')
 
 
 class OwnerDataView(TestCase):
     """Test owner data view."""
     def test_storing_owner_data_to_html_page(self):
         """Test storing owner data to html."""
-        owner = Owner()
+        owner = Owner.objects.first()
+        if owner is not None:
+            response = self.client.get(reverse('contact'))
+            self.assertContains(response, 'Sergiy')
+            self.assertContains(response, 'Savarin')
+        else:
+            response = self.client.get(reverse('contact'))
+            self.assertContains(response, 'Database is empty.')
 
-        owner.first_name = 'Sergiy'
-        owner.last_name = 'Savarin'
-        owner.save()
-
-        request = HttpRequest()
-        response = contact(request)
-
-        self.assertContains(response, 'Sergiy')
-        self.assertContains(response, 'Savarin')
-
+    def test_quantity_of_owner_objects_in_db(self):
+        """Test quantity of owner objects in database."""
+        owner = Owner.objects.count()
+        if owner == 0:
+            self.assertEqual(owner, 0)
+        elif owner == 1:
+            self.assertEqual(owner, 1)
+        else:
+            self.assertTrue(owner > 1)
 
 class UserRequestsData(TestCase):
     """Test saving and retrieving users requests."""
