@@ -16,7 +16,7 @@ def contact(request):
 def requests(request):
     """View for last ten requests to server."""
     # Take last ten requests from the database and sort its by id
-    requests = UsersRequest.objects.order_by('id').reverse()[:10]
+    requests = UsersRequest.objects.order_by('-id')[:10]
     # Quantity of requests
     count = UsersRequest.objects.count()
     # if request is ajax, prepare requests and
@@ -27,8 +27,7 @@ def requests(request):
             'count': count
         }
         return HttpResponse(json.dumps(request_data))
-    else:
-        return render(request, 'requests.html', {'requests': requests})
+    return render(request, 'requests.html', {'requests': requests})
 
 
 def edit_contact(request):
