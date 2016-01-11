@@ -5,7 +5,7 @@ from django.http import HttpRequest
 from django.test import TestCase
 
 from models import Owner, UsersRequest
-from views import contact, requests
+from views import requests
 
 
 class HomePageTest(TestCase):
@@ -39,6 +39,7 @@ class OwnerDataView(TestCase):
             self.assertEqual(owner, 1)
         else:
             self.assertTrue(owner > 1)
+
 
 class UserRequestsData(TestCase):
     """Test saving and retrieving users requests."""
