@@ -23,7 +23,7 @@ def requests(request):
     # send its in json format
     if request.is_ajax():
         request_data = {
-            'request': [('<p>%s</p>' % user.request_str) for user in requests],
+            'request': [user.request_str for user in requests],
             'count': count
         }
         return HttpResponse(json.dumps(request_data))
