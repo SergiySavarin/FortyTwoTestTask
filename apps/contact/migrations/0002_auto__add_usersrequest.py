@@ -25,13 +25,13 @@ class Migration(SchemaMigration):
         u'contact.owner': {
             'Meta': {'object_name': 'Owner'},
             'bio': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'birthday': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'email': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
+            'birthday': ('django.db.models.fields.DateField', [], {}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '256'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'jabber': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'other': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'other_info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'skype': ('django.db.models.fields.CharField', [], {'max_length': '256'})
         },
         u'contact.usersrequest': {

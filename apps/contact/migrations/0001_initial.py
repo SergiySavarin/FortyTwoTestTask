@@ -13,11 +13,11 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('first_name', self.gf('django.db.models.fields.CharField')(max_length=256)),
             ('last_name', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('birthday', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('email', self.gf('django.db.models.fields.CharField')(max_length=256)),
+            ('birthday', self.gf('django.db.models.fields.DateField')()),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=256)),
             ('skype', self.gf('django.db.models.fields.CharField')(max_length=256)),
             ('jabber', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('other', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('other_info', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('bio', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
         db.send_create_signal(u'contact', ['Owner'])
@@ -32,13 +32,13 @@ class Migration(SchemaMigration):
         u'contact.owner': {
             'Meta': {'object_name': 'Owner'},
             'bio': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'birthday': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'email': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
+            'birthday': ('django.db.models.fields.DateField', [], {}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '256'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'jabber': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'other': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'other_info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'skype': ('django.db.models.fields.CharField', [], {'max_length': '256'})
         }
     }
