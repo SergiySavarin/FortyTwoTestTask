@@ -7,12 +7,12 @@ class Owner(models.Model):
     """Owner model."""
     first_name = models.CharField(max_length=256)
     last_name = models.CharField(max_length=256)
-    birthday = models.CharField(max_length=256)
-    email = models.CharField(max_length=256)
+    birthday = models.DateField()
+    email = models.EmailField(max_length=256)
     skype = models.CharField(max_length=256)
     jabber = models.CharField(max_length=256)
     # Other information about owner
-    other = models.TextField(blank=True)
+    other_info = models.TextField(blank=True)
     # Owner biography
     bio = models.TextField(blank=True)
 
