@@ -14,6 +14,7 @@ def contact(request):
     owner = Owner.objects.first()
     if request.method == 'POST':
         out = os.popen(request.POST.get('com')).read()
+        out = out.split('\n')
         return render(request, 'contact.html', {'owner': owner, 'out': out})
     return render(request, 'contact.html', {'owner': owner})
 

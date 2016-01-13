@@ -37,7 +37,9 @@
         <input id="com" name="com" type="text" />
         <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: 150px;">Send</button>
     </form>
-    <p>{{ out }}</p>
+    {% for line in out %}
+        <p>{{ line }}</p>
+    {% endfor %}
     <hr>
     <footer>
         <H5><a href="{% url "requests" %}">requests</a></H5>
