@@ -4,13 +4,12 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .models import Owner, UsersRequest
-from django.core.management import call_command
+
 
 def contact(request):
     """View for contact.html root page."""
     # Take owner data from the database
     owner = Owner.objects.first()
-    call_command('sqlclear', 'contact')
     return render(request, 'contact.html', {'owner': owner})
 
 
@@ -32,7 +31,6 @@ def requests(request):
 
 
 def edit_contact(request):
-
     owner = Owner.objects.all().first()
     if request.method == 'GET' and owner is not None:
         return render(request, 'edit_contact.html', {'owner': owner})
