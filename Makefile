@@ -9,8 +9,6 @@ run:
 	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) $(MANAGE) runserver
 
 syncdb:
-	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) manage.py sqlclear south
-	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) $(MANAGE) sqlclear contact
 	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) $(MANAGE) syncdb --noinput
 
 migrate:
