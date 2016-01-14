@@ -17,7 +17,7 @@ class Migration(SchemaMigration):
             ('email', self.gf('django.db.models.fields.EmailField')(max_length=256)),
             ('skype', self.gf('django.db.models.fields.CharField')(max_length=256)),
             ('jabber', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('other_info', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('other', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('bio', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
         db.send_create_signal(u'contact', ['Owner'])
@@ -38,7 +38,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'jabber': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'other_info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'other': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'skype': ('django.db.models.fields.CharField', [], {'max_length': '256'})
         }
     }
