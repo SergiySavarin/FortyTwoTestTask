@@ -8,7 +8,18 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        """add some here."""
+        """db.create_table(u'contact_owner', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=256)),
+            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=256)),
+            ('birthday', self.gf('django.db.models.fields.DateField')()),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=256)),
+            ('skype', self.gf('django.db.models.fields.CharField')(max_length=256)),
+            ('jabber', self.gf('django.db.models.fields.CharField')(max_length=256)),
+            ('other', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('bio', self.gf('django.db.models.fields.TextField')(blank=True)),
+        ))
+        db.send_create_signal(u'contact', ['Owner'])"""
         # Adding model 'Owner'
 
 
