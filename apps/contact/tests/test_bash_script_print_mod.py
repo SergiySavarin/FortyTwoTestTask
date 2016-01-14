@@ -1,4 +1,4 @@
-import os
+"""import os"""
 
 from django.test import TestCase
 
@@ -13,10 +13,10 @@ class BashScriptCustomCommand(TestCase):
         """
         pass
         # run bash script
-        """os.system('./print_mod.sh')"""
+        """os.system('./print_mod.sh')
         # find saved file in and check for result
         file_names = os.popen('ls').read().split()
         output_file = [name for name in file_names if '.dat' in name]
         with open(output_file[0]) as out:
             out = out.read()
-            """self.assertIn('Owner', out)"""
+            self.assertIn('Owner', out)"""
