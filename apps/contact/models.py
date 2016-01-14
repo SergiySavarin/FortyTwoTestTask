@@ -21,3 +21,12 @@ class Owner(models.Model):
 class UsersRequest(models.Model):
     """Model for storing requests."""
     request_str = models.CharField(max_length=256)
+
+
+class ModelsChangesLog(models.Model):
+    """ Model for saving create/edit/delete
+        actions on project models to db.
+    """
+    model_name = models.CharField(max_length=128)
+    action = models.CharField(max_length=128)
+    action_time = models.DateTimeField(auto_now=True, auto_now_add=True)
