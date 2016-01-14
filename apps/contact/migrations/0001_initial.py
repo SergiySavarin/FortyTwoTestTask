@@ -8,6 +8,7 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        """add some here."""
         # Adding model 'Owner'
 
 
