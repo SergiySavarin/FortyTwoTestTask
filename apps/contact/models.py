@@ -12,7 +12,7 @@ class Owner(models.Model):
     skype = models.CharField(max_length=256)
     jabber = models.CharField(max_length=256)
     # Other information about owner
-    other = models.TextField(blank=True)
+    other_info = models.TextField(blank=True)
     # Owner biography
     bio = models.TextField(blank=True)
 
