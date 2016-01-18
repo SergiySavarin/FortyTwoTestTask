@@ -1,31 +1,19 @@
 # -*- coding: utf-8 -*-
 from south.utils import datetime_utils as datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        # Deleting field 'Owner.other'
-        db.delete_column(u'contact_owner', 'other')
-
-        # Adding field 'Owner.other_info'
-        db.add_column(u'contact_owner', 'other_info',
-                      self.gf('django.db.models.fields.TextField')(default='', blank=True),
-                      keep_default=False)
+        "Write your forwards methods here."
+        from django.core.management import call_command
+        call_command("loaddata", "initial_data.json")
 
 
     def backwards(self, orm):
-        # Adding field 'Owner.other'
-        db.add_column(u'contact_owner', 'other',
-                      self.gf('django.db.models.fields.TextField')(default='', blank=True),
-                      keep_default=False)
-
-        # Deleting field 'Owner.other_info'
-        db.delete_column(u'contact_owner', 'other_info')
-
+        "Write your backwards methods here."
 
     models = {
         u'contact.owner': {
@@ -38,8 +26,15 @@ class Migration(SchemaMigration):
             'jabber': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'other_info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'skype': ('django.db.models.fields.CharField', [], {'max_length': '256'})
+        },
+        u'contact.usersrequest': {
+            'Meta': {'object_name': 'UsersRequest'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'request_str': ('django.db.models.fields.CharField', [], {'max_length': '256'})
         }
     }
 
     complete_apps = ['contact']
+    symmetrical = True
