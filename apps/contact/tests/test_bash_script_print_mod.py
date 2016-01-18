@@ -19,6 +19,9 @@ class BashScriptCustomCommand(TestCase):
         with open(output_file[0]) as out:
             out = out.read()
             if 'no such table: django_admin_log' in out:
+                print '1'
                 self.assertNotIn('Owner', out)
             else:
+                print '2'
                 self.assertIn('Owner', out)
+        os.system('rm %s' % output_file[0])
