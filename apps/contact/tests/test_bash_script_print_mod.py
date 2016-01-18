@@ -11,7 +11,6 @@ class BashScriptCustomCommand(TestCase):
             format 'date_today.dat' in the same
             dir where bash script located.
         """
-        pass
         # run bash script
         os.system('./print_mod.sh')
         # find saved file in and check for result
