@@ -14,6 +14,7 @@ class BashScriptCustomCommand(TestCase):
         pass
         # run bash script
         os.system('./print_mod.sh')
+        ########
         # find saved file in and check for result
         file_names = os.popen('ls').read().split()
         output_file = [name for name in file_names if '.dat' in name]
