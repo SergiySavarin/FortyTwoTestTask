@@ -8,7 +8,8 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        """db.create_table(u'contact_owner', (
+        # Adding model 'Owner'
+        db.create_table(u'contact_owner', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('first_name', self.gf('django.db.models.fields.CharField')(max_length=256)),
             ('last_name', self.gf('django.db.models.fields.CharField')(max_length=256)),
@@ -16,11 +17,10 @@ class Migration(SchemaMigration):
             ('email', self.gf('django.db.models.fields.EmailField')(max_length=256)),
             ('skype', self.gf('django.db.models.fields.CharField')(max_length=256)),
             ('jabber', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('other', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('other_info', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('bio', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
-        db.send_create_signal(u'contact', ['Owner'])"""
-        # Adding model 'Owner'
+        db.send_create_signal(u'contact', ['Owner'])
 
 
     def backwards(self, orm):
@@ -38,7 +38,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'jabber': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'other': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'other_info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'skype': ('django.db.models.fields.CharField', [], {'max_length': '256'})
         }
     }
