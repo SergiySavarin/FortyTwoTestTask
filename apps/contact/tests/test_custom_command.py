@@ -9,5 +9,6 @@ class CustomCommand(TestCase):
         """Test for custom django command 'models_count'."""
         # run command models_count and take result like string from stdout
         out = StringIO()
-        call_command('models_count', stderr=out)
+        err = StringIO()
+        call_command('models_count', stdout=out, stderr=err)
         self.assertIn('Owner', out.getvalue())

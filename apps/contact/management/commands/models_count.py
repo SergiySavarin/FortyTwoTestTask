@@ -7,12 +7,18 @@ class Command(BaseCommand):
     help = 'Print project models and count all objects per model'
 
     def handle(self, **options):
+        std_err = ''
         for app in models.get_apps():
             for model in models.get_models(app):
                 try:
-                    self.stderr.write(
-                        'error: model "%s", objects: "%d"\n' % (
+                    self.stdout.write(
+                        'model: "%s", objects: "%d"\n' % (
                             model.__name__, model.objects.count()
                         ))
-                except OperationalError as err:
-                    self.stderr.write('error: %s\n' % err)
+                    std_err += (
+                        'error: model: "%s", objects: "%d"\n' % (
+                            model.__name__, model.objects.count()
+                        ))
+                except OperationalError:
+                    pass
+        self.stderr.write(std_err)
