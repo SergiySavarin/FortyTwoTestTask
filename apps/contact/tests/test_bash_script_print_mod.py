@@ -18,7 +18,7 @@ class BashScriptCustomCommand(TestCase):
         output_file = [name for name in file_names if '.dat' in name]
         with open(output_file[0]) as out:
             out = out.read()
-            if 'no such table: django_admin_log' in out:
+            if out == '\n':
                 self.assertNotIn('Owner', out)
             else:
                 self.assertIn('Owner', out)
