@@ -5,8 +5,8 @@
 {% block title %}Edit Contact Information{% endblock title %}
 
 {% block extra_head %}
-<script type="text/javascript" src="{% static "edit.js" %}"></script>
-<script src="{% static "jQuery.circleProgressBar.js" %}"></script>
+<script type="text/javascript" src="{% static "js/edit.js" %}"></script>
+<script src="{% static "js/jQuery.circleProgressBar.js" %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
 {% endblock extra_head %}
 
@@ -57,7 +57,7 @@
                     {{ form.photo }}
                     <p></p>
                     {% if form.photo.value == '' %}
-                        <img class="img-thumbnail" style="max-height:200px; max-width:200px; border: 1px solid black;" id="blah" src="{% static "default_user.png" %}" alt="your photo" />
+                        <img class="img-thumbnail" style="max-height:200px; max-width:200px; border: 1px solid black;" id="blah" src="{% static "image/default_user.png" %}" alt="your photo" />
                     {% else %}
                         <img class="img-thumbnail" style="max-height:200px; max-width:200px; border: 1px solid black;" id="blah" src="{{ MEDIA_URL }}{{ form.photo.value }}" alt="your photo" />
                     {% endif %}
