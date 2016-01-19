@@ -59,7 +59,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#birthday').datetimepicker({
+    $('#id_birthday').datetimepicker({
         'format': 'YYYY-MM-DD',
     });
 
@@ -76,7 +76,7 @@ $(document).ready(function() {
         }
     }
 
-    $("#photo").change(function(){
+    $("#id_photo").change(function(){
         readURL(this);
     });
 });

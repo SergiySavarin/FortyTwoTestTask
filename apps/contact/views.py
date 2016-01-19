@@ -40,10 +40,12 @@ def requests(request):
 @login_required
 def edit_contact(request):
     """View for editing owner data."""
-    form = EditContactForm()
     owner = Owner.objects.first()
     if request.method == 'GET':
         form = EditContactForm(instance=owner)
+        # style class for form fields
+        for field in form.fields:
+            form.fields[field].widget.attrs['class'] = 'form-control'
         return render(request, 'edit_contact.html', {'form': form})
     elif request.method == 'POST':
         if request.POST.get('save_button') is not None:
