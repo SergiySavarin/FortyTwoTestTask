@@ -29,5 +29,5 @@ class UserRequestMiddleware(object):
                 request.path,
                 request.META['SERVER_PROTOCOL']
             )
-            user_request = UsersRequest(request_str=request_str)
+            user_request = UsersRequest(request_str=request_str, priority=1)
             user_request.save()

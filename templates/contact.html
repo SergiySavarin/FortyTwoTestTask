@@ -28,6 +28,12 @@
     <div class="row">
         <div class="col-md-4">Last name: {{ owner.last_name }}</div>
         <div class="col-md-4">Jabber: {{ owner.jabber }}</div>
+        <div class="col-md-2"></div>
+        {% if user.is_authenticated %}
+            <div class="col-md-2">
+                <a href="{% edit_link requests %}">Requests(admin)</a>
+            </div>
+        {% endif %}
     </div>
     <div class="row">
         <div class="col-md-4">Date of birth: {{ owner.birthday }}</div>

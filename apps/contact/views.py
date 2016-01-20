@@ -1,4 +1,5 @@
 import json
+import signals  # noqa
 
 from forms import EditContactForm
 from django.core.urlresolvers import reverse
@@ -7,7 +8,7 @@ from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from resizeimg import size, resize
+from utils import size, resize
 
 from fortytwo_test_task.settings import MEDIA_ROOT
 from .models import Owner, UsersRequest
@@ -17,13 +18,15 @@ def contact(request):
     """View for contact.html root page."""
     # Take owner data from the database
     owner = Owner.objects.first()
-    return render(request, 'contact.html', {'owner': owner})
+    requests = UsersRequest()
+    data = {'owner': owner, 'requests': requests}
+    return render(request, 'contact.html', data)
 
 
 def requests(request):
     """View for last ten requests to server."""
     # Take last ten requests from the database and sort its by id
-    requests = UsersRequest.objects.order_by('-id', 'priority')[:10]
+    requests = UsersRequest.objects.filter(priority=1).order_by('-id')[:10]
     # Quantity of requests
     count = UsersRequest.objects.count()
     # if request is ajax, prepare requests and
@@ -31,9 +34,9 @@ def requests(request):
     if request.is_ajax():
         response_data = {
             'request': [
-                ('%s: %s') % (user.priority, user.request_str)
-                for user in requests if user.priority
-                ],
+                ('%s, %s') % ('Priority: 1', user.request_str)
+                for user in requests
+            ],
             'count': count
         }
         return HttpResponse(json.dumps(response_data))
