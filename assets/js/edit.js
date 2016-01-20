@@ -45,7 +45,7 @@ $(document).ready(function() {
             // render errors ander form fields
             var errors = JSON.parse(resp.responseText);
             for (error in errors) {
-                var id = '#' + error;
+                var id = '#id_' + error;
                 $(id).parent('div').append(errors[error]).css('color', 'red');
             }
             // loading widget

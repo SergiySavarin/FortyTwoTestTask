@@ -30,7 +30,10 @@ def requests(request):
     # send its in json format
     if request.is_ajax():
         response_data = {
-            'request': [('%s: %s') % (user.priority, user.request_str) for user in requests if user.priority],
+            'request': [
+                ('%s: %s') % (user.priority, user.request_str)
+                for user in requests if user.priority
+                ],
             'count': count
         }
         return HttpResponse(json.dumps(response_data))
@@ -43,9 +46,6 @@ def edit_contact(request):
     owner = Owner.objects.first()
     if request.method == 'GET':
         form = EditContactForm(instance=owner)
-        # style class for form fields
-        for field in form.fields:
-            form.fields[field].widget.attrs['class'] = 'form-control'
         return render(request, 'edit_contact.html', {'form': form})
     elif request.method == 'POST':
         if request.POST.get('save_button') is not None:
