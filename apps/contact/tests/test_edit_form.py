@@ -49,3 +49,18 @@ class OwnerDataEdit(TestCase):
             response.context['form']['birthday'].errors,
             [u'Enter a valid date.']
         )
+
+    def test_edit_page_save_valid_owner_data_after_post(self):
+        """ Test that edit page save valid owner data and show."""
+        self.client.login(username='admin', password='admin')
+        response = self.client.post(
+            reverse('edit_contact'), {
+                'first_name': 'Vasja', 'last_name': 'Pupkin',
+                'birthday': '1965-12-02', 'bio': 'Nurilsk',
+                'email': 'rdb@yans.com', 'skype': 'lock_lom',
+                'jabber': 'vasja@nurilsk.com', 'save_button': 'Save'
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(reverse('contact'))
+        self.assertContains(response, 'Vasja')
