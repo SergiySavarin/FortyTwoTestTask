@@ -7,7 +7,7 @@ from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from resizeimg import size, resize
+from utils import size, resize
 
 from fortytwo_test_task.settings import MEDIA_ROOT
 from .models import Owner, UsersRequest
@@ -44,8 +44,8 @@ def edit_contact(request):
     if request.method == 'GET':
         form = EditContactForm(instance=owner)
         # style class for form fields
-        for field in form.fields:
-            form.fields[field].widget.attrs['class'] = 'form-control'
+        # for field in form.fields:
+        #     form.fields[field].widget.attrs['class'] = 'form-control'
         return render(request, 'edit_contact.html', {'form': form})
     elif request.method == 'POST':
         if request.POST.get('save_button') is not None:
