@@ -23,14 +23,14 @@ def contact(request):
 def requests(request):
     """View for last ten requests to server."""
     # Take last ten requests from the database and sort its by id
-    requests = UsersRequest.objects.order_by('-id')[:10]
+    requests = UsersRequest.objects.order_by('-id', 'priority')[:10]
     # Quantity of requests
     count = UsersRequest.objects.count()
     # if request is ajax, prepare requests and
     # send its in json format
     if request.is_ajax():
         response_data = {
-            'request': [user.request_str for user in requests],
+            'request': [('%s: %s') % (user.priority, user.request_str) for user in requests if user.priority],
             'count': count
         }
         return HttpResponse(json.dumps(response_data))

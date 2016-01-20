@@ -15,7 +15,7 @@ class UserRequestMiddleware(object):
         """
         def exclusion(path):
             """Function which check request path."""
-            if ('/static/' not in path) and ('/uploads/' not in path):
+            if ('/static/' not in path) and ('/uploads/' not in path) and ('/admin/' not in path):
                 return True
             return False
 

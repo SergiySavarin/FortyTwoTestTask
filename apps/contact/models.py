@@ -21,6 +21,7 @@ class Owner(models.Model):
 class UsersRequest(models.Model):
     """Model for storing requests."""
     request_str = models.CharField(max_length=256)
+    priority = models.IntegerField(default=1, choices=[(0, 0), (1, 1)])
 
 
 class ModelsChangesLog(models.Model):

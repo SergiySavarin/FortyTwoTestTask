@@ -16,7 +16,9 @@ var REQUESTS_URL = '{% url "requests" %}';
     <div class="container">
         <div id="result">
             {% for request in requests %}
-                <p>{{ request.request_str }}</p>
+                {% if request.priority %}
+                    <p>{{ request.priority }}: {{ request.request_str }}</p>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
