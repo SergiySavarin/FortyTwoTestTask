@@ -2,7 +2,7 @@ from django.test import TestCase
 from PIL import Image
 
 from fortytwo_test_task.settings import BASE_DIR
-from apps.contact.resizeimg import resize, size
+from apps.contact.utils import resize, size
 
 
 class OwnerPhotoResize(TestCase):
