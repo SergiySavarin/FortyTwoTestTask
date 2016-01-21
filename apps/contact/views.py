@@ -26,7 +26,7 @@ def contact(request):
 def requests(request):
     """View for last ten requests to server."""
     # Get request priority from cookies
-    prior = int(request.COOKIES.get('current_priority'))
+    prior = request.COOKIES.get('current_priority')
     # Take last ten requests from the database and sort its by id
     requests = UsersRequest.objects.filter(priority=prior).order_by('-id')[:10]
     # Quantity of requests
