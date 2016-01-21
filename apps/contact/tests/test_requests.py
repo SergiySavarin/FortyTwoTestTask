@@ -24,6 +24,7 @@ class UserRequestsData(TestCase):
         request_1_db, request_2_db = requests_db
         # Add to request META key which make is_ajax() method true
         request.META['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
+        request.COOKIES['current_priority'] = 1
         # Take last two requests from requests page
         requests_pg = json.loads(requests(request).content)['request']
         request_1_pg, request_2_pg = requests_pg

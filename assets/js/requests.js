@@ -43,3 +43,31 @@ document.addEventListener('visibilitychange', function(){
     document.title = 0;
     $('p').css('color', '#551A8B');
 });
+
+$(document).ready(function(){
+    $('#priority-selector select').val($.cookie('current_priority'))
+    $('#priority-selector select').change(function(event){
+        var priority = $(this).val();
+        if (priority) {
+            $.cookie(
+                'current_priority', priority,
+                {'path': '/requests/', 'expires': 365}
+            );
+        } else {
+            $.removeCookie('current_priority', {'path': '/requests/'});
+        }
+        $.ajax({
+            url: REQUESTS_URL,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                $('#result').html('');
+                for (index in data.request) {
+                    var text = data.request[index];
+                    $('#result').append('<p>' + text);
+                }
+            }
+        });
+        return true;
+    });
+});

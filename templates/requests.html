@@ -12,11 +12,21 @@ var REQUESTS_URL = '{% url "requests" %}';
 {% endblock extra_head %}
 
 {% block content %}
+<div class="container">
+    <div id="priority-selector">
+        <strong>Priority:</strong>
+        <select>
+            <option value="1">1</option>
+            <option value="0">0</option>
+        </select>
+        <hr>
+    </div>
+</div>
 <body onmouseover="mOver()">
     <div class="container">
         <div id="result">
             {% for request in requests %}
-                <p>Priority: 1, {{ request.request_str }}</p>
+                <p>Priority: {{ priority }}, {{ request.request_str }}</p>
             {% endfor %}
         </div>
     </div>

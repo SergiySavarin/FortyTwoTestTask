@@ -25,8 +25,10 @@ def contact(request):
 
 def requests(request):
     """View for last ten requests to server."""
+    # Get request priority from cookies
+    prior = int(request.COOKIES.get('current_priority'))
     # Take last ten requests from the database and sort its by id
-    requests = UsersRequest.objects.filter(priority=1).order_by('-id')[:10]
+    requests = UsersRequest.objects.filter(priority=prior).order_by('-id')[:10]
     # Quantity of requests
     count = UsersRequest.objects.count()
     # if request is ajax, prepare requests and
@@ -34,13 +36,14 @@ def requests(request):
     if request.is_ajax():
         response_data = {
             'request': [
-                ('%s, %s') % ('Priority: 1', user.request_str)
-                for user in requests
+                ('Priority: %s, %s') % (prior, req.request_str)
+                for req in requests
             ],
             'count': count
         }
         return HttpResponse(json.dumps(response_data))
-    return render(request, 'requests.html', {'requests': requests})
+    data = {'requests': requests, 'priority': prior}
+    return render(request, 'requests.html', data)
 
 
 @login_required
