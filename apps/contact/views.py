@@ -76,6 +76,7 @@ def edit_contact(request):
             form = EditContactForm(request.POST)
             return render(request, 'edit_contact.html', {'form': form})
 
+
 @login_required
 def bar_shell(request):
     """Barista shell using."""
