@@ -16,6 +16,7 @@ var REQUESTS_URL = '{% url "requests" %}';
     <div id="priority-selector">
         <strong>Priority:</strong>
         <select>
+            <option value="all">All</option>
             <option value="1">1</option>
             <option value="0">0</option>
         </select>
@@ -26,7 +27,7 @@ var REQUESTS_URL = '{% url "requests" %}';
     <div class="container">
         <div id="result">
             {% for request in requests %}
-                <p>Priority: {{ priority }}, {{ request.request_str }}</p>
+                <p>Priority: {{ request.priority|floatformat:"0" }}, {{ request.request_str }}</p>
             {% endfor %}
         </div>
     </div>

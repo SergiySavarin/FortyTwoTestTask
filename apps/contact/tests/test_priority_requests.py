@@ -25,6 +25,7 @@ class RequestsPriority(TestCase):
             and when priority changed to 0 show this request with
             new priority.
         """
+        # Show requests with priority 1
         response = self.client.get(reverse('contact'))
         request = UsersRequest.objects.last()
         self.client.cookies['current_priority'] = 1
@@ -32,7 +33,7 @@ class RequestsPriority(TestCase):
         self.assertEqual(
             response.context['requests'][1].request_str, request.request_str
         )
-        # Make request priority false
+        # Make request priority false[0]
         request.priority = False
         request.save()
         self.client.cookies['current_priority'] = 0
@@ -40,3 +41,8 @@ class RequestsPriority(TestCase):
         self.assertEqual(
             response.context['requests'][0].request_str, request.request_str
         )
+        # Show all requests
+        self.client.cookies['current_priority'] = 'all'
+        response = self.client.get(reverse('requests'))
+        self.assertContains(response, 'Priority: 1')
+        self.assertContains(response, 'Priority: 0')

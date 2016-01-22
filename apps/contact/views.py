@@ -27,23 +27,29 @@ def requests(request):
     """View for last ten requests to server."""
     # Get request priority from cookies
     prior = request.COOKIES.get('current_priority')
-    # Take last ten requests from the database and sort its by id
-    requests = UsersRequest.objects.filter(priority=prior).order_by('-id')[:10]
-    # Quantity of requests
-    count = UsersRequest.objects.count()
+    if prior != 'all':
+        # Take last ten requests from the database and sort its by id
+        requests = UsersRequest.objects.filter(priority=prior)
+        requests = requests.order_by('-id')[:10]
+        # Quantity of requests
+        count = UsersRequest.objects.filter(priority=prior).count()
+    else:
+        # Take last ten requests from the database and sort its by id
+        requests = UsersRequest.objects.order_by('-id')[:10]
+        # Quantity of requests
+        count = UsersRequest.objects.count()
     # if request is ajax, prepare requests and
     # send its in json format
     if request.is_ajax():
         response_data = {
             'request': [
-                ('Priority: %s, %s') % (prior, req.request_str)
+                ('Priority: %s, %s') % (int(req.priority), req.request_str)
                 for req in requests
             ],
             'count': count
         }
         return HttpResponse(json.dumps(response_data))
-    data = {'requests': requests, 'priority': prior}
-    return render(request, 'requests.html', data)
+    return render(request, 'requests.html', {'requests': requests})
 
 
 @login_required
@@ -69,7 +75,6 @@ def edit_contact(request):
                     errors = {}
                     for error in form.errors:
                         errors[error] = form.errors[error]
-                        print form.errors[error]
                     return HttpResponseBadRequest(json.dumps(errors))
             return HttpResponseRedirect(reverse('edit_contact'))
         else:
