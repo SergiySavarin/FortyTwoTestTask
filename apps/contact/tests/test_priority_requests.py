@@ -1,3 +1,5 @@
+import json
+
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
@@ -46,3 +48,40 @@ class RequestsPriority(TestCase):
         response = self.client.get(reverse('requests'))
         self.assertContains(response, 'Priority: 1')
         self.assertContains(response, 'Priority: 0')
+
+    def test_ajax_response_return_proper_count_of_requests(self):
+        """ Test that ajax response return proper count of
+            request objects by choosen priority.
+        """
+        response = self.client.get(reverse('contact'))
+        request = UsersRequest.objects.last()
+        request.priority = False
+        request.save()
+        response = self.client.get(reverse('requests'))
+        request = UsersRequest.objects.last()
+        request.priority = True
+        request.save()
+        # Response return all request objects
+        self.client.cookies['current_priority'] = 'all'
+        count = UsersRequest.objects.count()
+        response = self.client.get(
+            reverse('requests'), HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+        resp = json.loads(response.content)
+        self.assertEqual(resp['count'], count)
+        # Response return count of request objects with priority 1
+        self.client.cookies['current_priority'] = '1'
+        count = UsersRequest.objects.filter(priority=1).count()
+        response = self.client.get(
+            reverse('requests'), HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+        resp = json.loads(response.content)
+        self.assertEqual(resp['count'], count)
+        # Response return count of request objects with priority 0
+        self.client.cookies['current_priority'] = '0'
+        count = UsersRequest.objects.filter(priority=0).count()
+        response = self.client.get(
+            reverse('requests'), HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+        resp = json.loads(response.content)
+        self.assertEqual(resp['count'], count)
