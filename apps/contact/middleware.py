@@ -1,3 +1,5 @@
+from random import randint
+
 from datetime import datetime
 from .models import UsersRequest
 
@@ -29,5 +31,8 @@ class UserRequestMiddleware(object):
                 request.path,
                 request.META['SERVER_PROTOCOL']
             )
-            user_request = UsersRequest(request_str=request_str, priority=1)
+            priority = randint(0, 1)
+            user_request = UsersRequest(
+                request_str=request_str, priority=priority
+            )
             user_request.save()

@@ -30,19 +30,19 @@ class RequestsPriority(TestCase):
         # Show requests with priority 1
         response = self.client.get(reverse('contact'))
         request = UsersRequest.objects.last()
+        request.priority = True
+        request.save()
         self.client.cookies['current_priority'] = 1
         response = self.client.get(reverse('requests'))
-        self.assertEqual(
-            response.context['requests'][1].request_str, request.request_str
-        )
+        self.assertContains(response, 'Priority: 1')
+        self.assertNotContains(response, 'Priority: 0')
         # Make request priority false[0]
         request.priority = False
         request.save()
         self.client.cookies['current_priority'] = 0
         response = self.client.get(reverse('requests'))
-        self.assertEqual(
-            response.context['requests'][0].request_str, request.request_str
-        )
+        self.assertContains(response, 'Priority: 0')
+        self.assertNotContains(response, 'Priority: 1')
         # Show all requests
         self.client.cookies['current_priority'] = 'all'
         response = self.client.get(reverse('requests'))
@@ -53,6 +53,7 @@ class RequestsPriority(TestCase):
         """ Test that ajax response return proper count of
             request objects by choosen priority.
         """
+        # Make two requests and set one to 0 and second to 1 priority
         response = self.client.get(reverse('contact'))
         request = UsersRequest.objects.last()
         request.priority = False
@@ -85,3 +86,14 @@ class RequestsPriority(TestCase):
         )
         resp = json.loads(response.content)
         self.assertEqual(resp['count'], count)
+
+    def test_requests_saved_by_middleware_have_random_priority(self):
+        """Test that middle ware save requests with random priority."""
+        self.assertEqual(UsersRequest.objects.count(), 0)
+        for i in range(0, 4):
+            self.client.get(reverse('contact'))
+            self.client.get(reverse('requests'))
+        self.client.cookies['current_priority'] = 'all'
+        response = self.client.get(reverse('requests'))
+        self.assertContains(response, 'Priority: 1')
+        self.assertContains(response, 'Priority: 0')
