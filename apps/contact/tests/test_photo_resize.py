@@ -22,10 +22,12 @@ class OwnerPhotoResize(TestCase):
         ratio = min(200.0 / original.size[0], 200.0 / original.size[1])
         # calculate new image size
         new_size = (original.size[0] * ratio,  original.size[1] * ratio)
+        # check input image with size function
+        self.assertFalse(size(path))
         # resize image and save with testpath
-        if not size(path):
-            resize(path, testpath)
-            test_img = Image.open(testpath)
-            # compare test image size with our new_size
-            self.assertEqual(new_size[0], test_img.size[0])
-            self.assertEqual(new_size[1], test_img.size[1])
+        resize(path, testpath)
+        self.assertTrue(size(testpath))
+        test_img = Image.open(testpath)
+        # compare test image size with our new_size
+        self.assertEqual(new_size[0], test_img.size[0])
+        self.assertEqual(new_size[1], test_img.size[1])

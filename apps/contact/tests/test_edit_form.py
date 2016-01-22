@@ -8,9 +8,8 @@ class OwnerDataEdit(TestCase):
     """Test for owner data editing."""
     def test_edit_page_show_owner_data_in_fields_after_load(self):
         """Test that edit page after loads show owner data in fields."""
-        if Owner.objects.count() != 0:
-            fake = Owner.objects.all()
-            fake.delete()
+        owner_objects = Owner.objects.all()
+        owner_objects.delete()
         owner = Owner(
             first_name='Vasja',
             last_name='Pupkin',
@@ -21,16 +20,19 @@ class OwnerDataEdit(TestCase):
             jabber='vasja@nurilsk.com'
         )
         owner.save()
-        # Take dict of owner fields
-        owner_fields = Owner.objects.values().first()
+        owner = Owner.objects.first()
+        # Take list of owner fields
+        owner_fields = list(Owner.objects.values()[0])[:-1]
         response = self.client.get(reverse('edit_contact'))
         self.assertEqual(response.status_code, 302)
         self.client.login(username='admin', password='admin')
         response = self.client.get(reverse('edit_contact'))
         # check each field value from db included in response
         for field in owner_fields:
-            if field != 'id' and owner_fields[field] != '':
-                self.assertContains(response, owner_fields[field])
+            self.assertEqual(
+                response.context['form'][field].value(),
+                owner.__getattribute__(field)
+            )
 
     def test_edit_page_show_error_message_after_invalid_data_post(self):
         """ Test that edit page after empty or invalid
