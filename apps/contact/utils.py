@@ -1,3 +1,5 @@
+import os
+
 from PIL import Image
 
 
@@ -47,3 +49,19 @@ def resize(path, testpath=None):
         return True
     except IOError as err:
         return err
+
+
+def empty_dat():
+    """ Function check if .dat file is empty after run bash
+        script ./print_mod.sh
+    """
+    # run bash script
+    os.system('./print_mod.sh')
+    # find saved file in and check for result
+    file_names = os.popen('ls').read().split()
+    output_file = [name for name in file_names if '.dat' in name]
+    with open(output_file[0]) as out:
+        out = out.read()
+        if out == '\n' or out == '':
+            return True
+        return False
