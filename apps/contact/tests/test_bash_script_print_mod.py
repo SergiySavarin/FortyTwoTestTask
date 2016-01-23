@@ -1,4 +1,5 @@
 import os
+import sys
 
 from django.test import TestCase
 from unittest import skipIf
@@ -15,6 +16,7 @@ class BashScriptCustomCommand(TestCase):
             format 'date_today.dat' in the same
             dir where bash script located.
         """
+        sys.path.append('/d/sergiysavarin.fortytwotesttask1-4/uwsgi')
         # run bash script
         os.system('./print_mod.sh')
         # find saved file in and check for result
