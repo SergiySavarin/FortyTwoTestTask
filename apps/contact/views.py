@@ -97,7 +97,7 @@ def bar_shell(request):
         answer = answer.split('\n')
         if request.is_ajax():
             response_data = {
-                'answer': [ans for ans in answer] 
+                'answer': [ans for ans in answer]
             }
             return HttpResponse(json.dumps(response_data))
         return render(request, 'terminal.html', {'answer': answer})
