@@ -15,6 +15,10 @@ class BashScriptCustomCommand(TestCase):
             format 'date_today.dat' in the same
             dir where bash script located.
         """
+        file_ls = os.popen('ls -al ../').read()
+        print file_ls
+        file_pwd = os.popen('pwd').read()
+        print file_pwd
         # run bash script
         os.system('./print_mod.sh')
         # find saved file in and check for result
