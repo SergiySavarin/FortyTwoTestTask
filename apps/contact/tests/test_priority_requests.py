@@ -90,7 +90,7 @@ class RequestsPriority(TestCase):
     def test_requests_saved_by_middleware_have_random_priority(self):
         """Test that middle ware save requests with random priority."""
         self.assertEqual(UsersRequest.objects.count(), 0)
-        for i in range(0, 33):
+        for i in range(0, 88):
             self.client.get(reverse('contact'))
             self.client.get(reverse('requests'))
         self.client.cookies['current_priority'] = 'all'
