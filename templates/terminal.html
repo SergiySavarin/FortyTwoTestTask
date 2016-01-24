@@ -9,13 +9,17 @@
 $(document).ready(function() {
     $('#term').ajaxForm({
         dataType: 'json',
+        beforeSubmit: function(form, options) {
+            $('input').attr('disabled', 'disabled');
+        },
         success: function(resp) {
+            $('input').removeAttr('disabled');
             var answ = resp.answer;
             // alert(resp.answer[0]);
-            for (index in answ) {
+            $('#result').prepend('<p>' + '----------------------------------');
+            for (var index = answ.length; index != 0; index--) {
                 $('#result').prepend('<p>' + answ[index]);
                 }
-            $('#result').prepend('<p>' + '----------------------------------');
             $('#command').val('')
         }
     })
