@@ -18,20 +18,34 @@ def contact(request):
     """View for contact.html root page."""
     # Take owner data from the database
     owner = Owner.objects.first()
-    return render(request, 'contact.html', {'owner': owner})
+    requests = UsersRequest()
+    data = {'owner': owner, 'requests': requests}
+    return render(request, 'contact.html', data)
 
 
 def requests(request):
     """View for last ten requests to server."""
-    # Take last ten requests from the database and sort its by id
-    requests = UsersRequest.objects.order_by('-id')[:10]
-    # Quantity of requests
-    count = UsersRequest.objects.count()
+    # Get request priority from cookies
+    prior = request.COOKIES.get('current_priority')
+    if prior != 'all':
+        # Take last ten requests from the database and sort its by id
+        requests = UsersRequest.objects.filter(priority=prior)
+        requests = requests.order_by('-id')[:10]
+        # Quantity of requests
+        count = UsersRequest.objects.filter(priority=prior).count()
+    else:
+        # Take last ten requests from the database and sort its by id
+        requests = UsersRequest.objects.order_by('-id')[:10]
+        # Quantity of requests
+        count = UsersRequest.objects.count()
     # if request is ajax, prepare requests and
     # send its in json format
     if request.is_ajax():
         response_data = {
-            'request': [user.request_str for user in requests],
+            'request': [
+                ('Priority: %s, %s') % (int(req.priority), req.request_str)
+                for req in requests
+            ],
             'count': count
         }
         return HttpResponse(json.dumps(response_data))
@@ -61,9 +75,30 @@ def edit_contact(request):
                     errors = {}
                     for error in form.errors:
                         errors[error] = form.errors[error]
-                        print form.errors[error]
                     return HttpResponseBadRequest(json.dumps(errors))
             return HttpResponseRedirect(reverse('edit_contact'))
         else:
             form = EditContactForm(request.POST)
             return render(request, 'edit_contact.html', {'form': form})
+
+
+@login_required
+def bar_shell(request):
+    """Barista shell using."""
+    if request.method == 'POST':
+        command = request.POST.get('command')
+        import subprocess
+        try:
+            answer = subprocess.check_output(
+                command, stderr=subprocess.STDOUT, shell=True
+            )
+        except subprocess.CalledProcessError as err:
+            answer = err.output
+        answer = answer.split('\n')
+        if request.is_ajax():
+            response_data = {
+                'answer': [ans for ans in answer]
+            }
+            return HttpResponse(json.dumps(response_data))
+        return render(request, 'terminal.html', {'answer': answer})
+    return render(request, 'terminal.html')

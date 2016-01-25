@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Barista terminal{% endblock title %}
+
+{% block extra_head %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#term').ajaxForm({
+        dataType: 'json',
+        beforeSubmit: function(form, options) {
+            $('input').attr('disabled', 'disabled');
+        },
+        success: function(resp) {
+            $('input').removeAttr('disabled');
+            var answ = resp.answer;
+            // alert(resp.answer[0]);
+            $('#result').prepend('<p>' + '----------------------------------');
+            for (var index = answ.length; index != 0; index--) {
+                $('#result').prepend('<p>' + answ[index]);
+                }
+            $('#command').val('')
+        }
+    })
+});
+
+</script>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="container">
+    <form action="{% url "bar_shell" %}" method="post" class="form-signin" id="term">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Enter Command</h2>
+        <label class="sr-only" for="command">command</label>
+        <input id="command" class="form-control" type="text" autofocus="" required="" placeholder="ls, touch, rm, pwd" name="command">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="send">Send</button>
+    </form>
+    <div style="width: 1100px; height: 400px; overflow-y: scroll;" id="result">
+        {% for ans in answer %}
+            <p>{{ ans }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

@@ -24,9 +24,10 @@ class UserRequestsData(TestCase):
         request_1_db, request_2_db = requests_db
         # Add to request META key which make is_ajax() method true
         request.META['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
+        request.COOKIES['current_priority'] = 'all'
         # Take last two requests from requests page
         requests_pg = json.loads(requests(request).content)['request']
         request_1_pg, request_2_pg = requests_pg
         # Check requests page with new requests
-        self.assertEqual(request_1_db.request_str, request_1_pg)
-        self.assertEqual(request_2_db.request_str, request_2_pg)
+        self.assertEqual(request_1_db.request_str, request_1_pg[13:])
+        self.assertEqual(request_2_db.request_str, request_2_pg[13:])

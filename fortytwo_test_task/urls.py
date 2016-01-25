@@ -16,6 +16,8 @@ urlpatterns = patterns(
     url(r'^requests/$', 'apps.contact.views.requests', name='requests'),
     url(r'^edit_contact/$', 'apps.contact.views.edit_contact',
         name='edit_contact'),
+    url(r'^bar_shell/$', 'apps.contact.views.bar_shell',
+        name='bar_shell'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT}),
