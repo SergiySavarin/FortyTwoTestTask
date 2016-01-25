@@ -6,7 +6,7 @@ test:
 	flake8 --exclude '*migrations*' apps fortytwo_test_task
 
 count:
-	PYTHONPATH=`pwd`:/d/sergiysavarin.fortytwotesttask1-4/uwsgi DJANGO_SETTINGS_MODULE=settings_deploy $(MANAGE) models_count
+	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) $(MANAGE) models_count
 
 run:
 	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) $(MANAGE) runserver
