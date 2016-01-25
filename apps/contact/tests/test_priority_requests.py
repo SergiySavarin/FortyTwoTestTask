@@ -2,6 +2,7 @@ import json
 
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from mock import patch
 
 from apps.contact.models import UsersRequest
 
@@ -87,11 +88,14 @@ class RequestsPriority(TestCase):
         resp = json.loads(response.content)
         self.assertEqual(resp['count'], count)
 
-    def test_requests_saved_by_middleware_have_random_priority(self):
+    @patch('apps.contact.middleware.randint')
+    def test_reqsts_saved_by_middlewr_have_rand_priority(self, mocked_randint):
         """Test that middle ware save requests with random priority."""
         self.assertEqual(UsersRequest.objects.count(), 0)
-        for i in range(0, 88):
+        for i in range(0, 3):
+            mocked_randint.return_value = 0
             self.client.get(reverse('contact'))
+            mocked_randint.return_value = 1
             self.client.get(reverse('requests'))
         self.client.cookies['current_priority'] = 'all'
         response = self.client.get(reverse('requests'))
