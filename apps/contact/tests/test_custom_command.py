@@ -1,5 +1,6 @@
 from django.core.management import call_command
 from django.test import TestCase
+from django.db import models
 from StringIO import StringIO
 
 
@@ -10,5 +11,7 @@ class CustomCommand(TestCase):
         # run command models_count and take result like string from stdout
         out = StringIO()
         err = StringIO()
+
         call_command('models_count', stdout=out, stderr=err)
-        self.assertIn('Owner', out.getvalue())
+        for model in models.get_models():
+            self.assertIn('%s' % (model.__name__), out.getvalue())
