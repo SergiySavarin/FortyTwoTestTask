@@ -1,8 +1,16 @@
 import json
+import signals  # noqa
 
+from forms import EditContactForm
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
+from django.http import HttpResponseBadRequest
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from utils import size, resize
+
+from fortytwo_test_task.settings import MEDIA_ROOT
 from .models import Owner, UsersRequest
 
 
@@ -22,20 +30,40 @@ def requests(request):
     # if request is ajax, prepare requests and
     # send its in json format
     if request.is_ajax():
-        request_data = {
+        response_data = {
             'request': [user.request_str for user in requests],
             'count': count
         }
-        return HttpResponse(json.dumps(request_data))
+        return HttpResponse(json.dumps(response_data))
     return render(request, 'requests.html', {'requests': requests})
 
 
+@login_required
 def edit_contact(request):
-    owner = Owner.objects.all().first()
-    if request.method == 'GET' and owner is not None:
-        return render(request, 'edit_contact.html', {'owner': owner})
+    """View for editing owner data."""
+    owner = Owner.objects.first()
+    if request.method == 'GET':
+        form = EditContactForm(instance=owner)
+        return render(request, 'edit_contact.html', {'form': form})
     elif request.method == 'POST':
         if request.POST.get('save_button') is not None:
+            form = EditContactForm(request.POST, request.FILES, instance=owner)
+            if form.is_valid():
+                owner = form.save()
+                owner.save()
+                # Take owner photo path
+                photo_path = '%s/%s' % (MEDIA_ROOT, owner.photo)
+                # Check photo size, if not 200x200px, resize it
+                if not size(photo_path):
+                    resize(photo_path)
+            else:
+                if request.is_ajax():
+                    errors = {}
+                    for error in form.errors:
+                        errors[error] = form.errors[error]
+                        print form.errors[error]
+                    return HttpResponseBadRequest(json.dumps(errors))
             return HttpResponseRedirect(reverse('edit_contact'))
-        elif request.POST.get('cancel_button') is not None:
-            return HttpResponseRedirect(reverse('contact'))
+        else:
+            form = EditContactForm(request.POST)
+            return render(request, 'edit_contact.html', {'form': form})

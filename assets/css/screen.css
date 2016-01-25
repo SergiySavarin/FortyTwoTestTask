@@ -1,17 +1,17 @@
-/*body {
-    background-color: #383838;
-    background-repeat: repeat;
-    height: 1070px;
-    left: 140px;
-    width: 800px;
+body {
+    background-color: #eee;
+    padding-bottom: 40px;
+    padding-top: 40px;
 }
-
-div {
-    background-color: #ffffff;
-    height: 1070px;
-    left: 152px;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    width: 800px;
-}*/
+.form-signin .form-control {
+    box-sizing: border-box;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    position: relative;
+}
+.form-signin {
+    margin: 0 auto;
+    max-width: 330px;
+    padding: 15px;
+}

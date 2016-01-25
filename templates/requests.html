@@ -4,11 +4,14 @@
 
 {% block title %}{% endblock title %}
 
-{% block content %}
+{% block extra_head %}
 <script type="text/javascript">
 var REQUESTS_URL = '{% url "requests" %}';
 </script>
-<script type='text/javascript' src="{% static 'requests.js' %}"></script>
+<script type='text/javascript' src="{% static "js/requests.js" %}"></script>
+{% endblock extra_head %}
+
+{% block content %}
 <body onmouseover="mOver()">
     <div class="container">
         <div id="result">

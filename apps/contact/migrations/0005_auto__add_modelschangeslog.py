@@ -8,20 +8,29 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'UsersRequest'
-        db.create_table(u'contact_usersrequest', (
+        # Adding model 'ModelsChangesLog'
+        db.create_table(u'contact_modelschangeslog', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('request_str', self.gf('django.db.models.fields.CharField')(max_length=256)),
+            ('model_name', self.gf('django.db.models.fields.CharField')(max_length=128)),
+            ('action', self.gf('django.db.models.fields.CharField')(max_length=128)),
+            ('action_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, auto_now_add=True, blank=True)),
         ))
-        db.send_create_signal(u'contact', ['UsersRequest'])
+        db.send_create_signal(u'contact', ['ModelsChangesLog'])
 
 
     def backwards(self, orm):
-        # Deleting model 'UsersRequest'
-        db.delete_table(u'contact_usersrequest')
+        # Deleting model 'ModelsChangesLog'
+        db.delete_table(u'contact_modelschangeslog')
 
 
     models = {
+        u'contact.modelschangeslog': {
+            'Meta': {'object_name': 'ModelsChangesLog'},
+            'action': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'action_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'auto_now_add': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'model_name': ('django.db.models.fields.CharField', [], {'max_length': '128'})
+        },
         u'contact.owner': {
             'Meta': {'object_name': 'Owner'},
             'bio': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
@@ -32,6 +41,7 @@ class Migration(SchemaMigration):
             'jabber': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'other_info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'skype': ('django.db.models.fields.CharField', [], {'max_length': '256'})
         },
         u'contact.usersrequest': {

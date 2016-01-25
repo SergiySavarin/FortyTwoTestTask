@@ -1,25 +1,19 @@
 # -*- coding: utf-8 -*-
 from south.utils import datetime_utils as datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        # Adding model 'UsersRequest'
-        db.create_table(u'contact_usersrequest', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('request_str', self.gf('django.db.models.fields.CharField')(max_length=256)),
-        ))
-        db.send_create_signal(u'contact', ['UsersRequest'])
+        "Write your forwards methods here."
+        from django.core.management import call_command
+        call_command("loaddata", "initial_data.json")
 
 
     def backwards(self, orm):
-        # Deleting model 'UsersRequest'
-        db.delete_table(u'contact_usersrequest')
-
+        "Write your backwards methods here."
 
     models = {
         u'contact.owner': {
@@ -32,6 +26,7 @@ class Migration(SchemaMigration):
             'jabber': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'other_info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'skype': ('django.db.models.fields.CharField', [], {'max_length': '256'})
         },
         u'contact.usersrequest': {
@@ -42,3 +37,4 @@ class Migration(SchemaMigration):
     }
 
     complete_apps = ['contact']
+    symmetrical = True
